@@ -1,32 +1,41 @@
-export default Game = (function initGame() {
+import Repository from "../repositories/Repository"
+import Card from "./Card"
+export default function Game() {
+    console.log("game init")
     // Repository to get the cards data
-    const api = null
+    const repository = Repository()
     const cards = []
     let score = 0
     let bestScore = 0
     //Represents when the game has ended
-    let gameEnd = false
+    // let gameEnd = false
 
     //Object to update the ui when data has changed
     const Updater = {
+        updateCards: null
+    }
 
+    // TODO: IMPLEMENT THESE TWO METHOD FOR GETTING THE DATA FROM REPO AND INIT THE CARDS ARRAY
+    const initCards = function(){
+       repository.getImages().then(response => {
+        if(response.data === undefined) return
+        response.data.forEach(obj => {
+        const card = Card(obj.id, null, obj.url)
+        cards.push(card)
+        })
+        console.log(cards)
+       })
     }
     
-    // TODO: IMPLEMENT THESE TWO METHOD FOR GETTING THE DATA FROM REPO AND INIT THE CARDS ARRAY
-    const getCardsData = () => {}
-
-    const initCards = () => {}
-
     const searchCard = (id) => {
         let card = null
         for(let i = 0; i < cards.length; i++) {
             const object = cards[i]
-            if(object.getId() = id) {
+            if(object.getId() === id) {
                 card = object
                 break
             }
         }
-
         return card
     }
 
@@ -39,7 +48,7 @@ export default Game = (function initGame() {
         cards.forEach(card => card.setIsSelected(false))
     }
 
-    const randomPointer = (length) => Math.floor(Math.random * cardsCopy.length)
+    const randomPointer = (length) => Math.floor(Math.random * length)
 
     // Makes the card data random
     // TODO: CHECK IF THIS CAN CHANGE MAYBE
@@ -71,7 +80,10 @@ export default Game = (function initGame() {
 
         // Updates the ui
     }
+    
+    const getCards = () => cards
     return {
+        getCards,
         handleClickEvent
     }
-})()
+}
