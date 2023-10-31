@@ -6,16 +6,23 @@ export default function useGame() {
     const [bestScore, setBestScore] = useState(0)
     const [cards, setCards] = useState([])
     
-    const url = 'https://v1.nekosapi.com/api/image/random?limit=10'
+    const url = 'https://v1.nekosapi.com/api/image/random?limit=11'
 
+   
+    const dataHasDuplicate = (cardsData, data) => cardsData.some(card => card.getUrl() === data.url)
     const processData = (data) => {
         const cardsData = []
         data.forEach(obj => {
-            const card = Card(obj.id, null, obj.url)
-            cardsData.push(card)
+            // This is to remove the duplicates from the source
+            // Probably better with a map object
+            if(!dataHasDuplicate(cardsData, obj)) {
+                const card = Card(obj.id, null, obj.url)
+                cardsData.push(card)
+            }
         });
         // update the card state
         setCards(cardsData)
+        
     }
   
     const requestData = () => {
@@ -28,7 +35,9 @@ export default function useGame() {
     }
     
     useEffect(() => {
-        requestData()
+        // Getting pics 10 times
+       requestData()
+        
     },[])
 
     const searchCard = (id) => {
@@ -45,12 +54,10 @@ export default function useGame() {
 
     const randomPointer = (length) => Math.floor(Math.random() * length)
 
-    // Makes the items be placed randomly
+    // Makes the cards random
     const randomize = () => {
         const cardsCopy = [...cards]
         const randomData = []
-        const pointer = randomPointer(cardsCopy.length)
-        console.log(pointer)
         while(cardsCopy.length > 0) {
             const pointer = randomPointer(cardsCopy.length)
             const obj = cardsCopy.splice(pointer, 1)[0]
@@ -66,8 +73,8 @@ export default function useGame() {
             setBestScore(score)
         }
         setScore(0)
-
     }
+
     const handleCardEvent = (id) => {
         const card = searchCard(id)
         
