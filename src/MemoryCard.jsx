@@ -9,7 +9,7 @@ export default function MemoryCard() {
         <div>
             <h1>Memory Card Game</h1>
             <h2>Best Score: {game.bestScore} || My score: {game.score} </h2>
-            <h1>Touch the images only once</h1>
+            <h3>Touch the images once</h3>
             <ul>
                 {game.cards.map(card => 
                     <Card 
