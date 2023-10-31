@@ -9,13 +9,13 @@ export default function useGame() {
     const url = 'https://v1.nekosapi.com/api/image/random?limit=11'
 
    
-    const dataHasDuplicate = (cardsData, data) => cardsData.some(card => card.getUrl() === data.url)
+    const isDuplicate = (data, cardsData) => cardsData.some(card => card.getUrl() === data.url)
     const processData = (data) => {
         const cardsData = []
         data.forEach(obj => {
             // This is to remove the duplicates from the source
             // Probably better with a map object
-            if(!dataHasDuplicate(cardsData, obj)) {
+            if(!isDuplicate(obj, cardsData)) {
                 const card = Card(obj.id, null, obj.url)
                 cardsData.push(card)
             }
