@@ -1,3 +1,4 @@
+// Represents the card data in the ui 
 export default function Card(id, title, url) {
     let isSelected = false;
 
