@@ -2,7 +2,7 @@ export default function Card(id, title, url) {
     let isSelected = false;
 
     const getId = () => id
-
+    
     const getTitle = () => title
 
     const getUrl = () => url
